@@ -1,0 +1,14 @@
+# Dentro del archivo .gitignore, asegúrate de añadir:
+echo "
+# Dependencias
+/node_modules
+
+# Variables de entorno y credenciales
+.env
+.env.*
+*.log
+
+# Archivos de depuración y temporales
+/dist
+npm-debug.log
+" > .gitignore
