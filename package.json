@@ -1,0 +1,41 @@
+{
+  "name": "gasolineras-pantaleon-api",
+  "version": "1.0.0",
+  "description": "Backend API para el Sistema de Puntos Pantaleon",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "postgresql",
+    "render"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "helmet": "^7.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "twilio": "^5.10.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacklioncorp/gasolineras-pantaleon-api.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/blacklioncorp/gasolineras-pantaleon-api/issues"
+  },
+  "homepage": "https://github.com/blacklioncorp/gasolineras-pantaleon-api#readme"
+}
