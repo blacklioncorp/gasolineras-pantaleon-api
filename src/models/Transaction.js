@@ -4,32 +4,27 @@ const { pool } = require('../config/db.config');
 
 class Transaction {
     /**
-     * Registra una nueva transacción en el historial.
+     * Registra un nuevo movimiento (Abono o Canje).
      */
     static async create({ 
         cliente_id, 
         cajero_id, 
-        monto_venta, 
-        porcentaje_recompensa, 
-        puntos_abonados 
+        monto_efectivo, 
+        tipo_movimiento,
+        monto_venta_original = null, // Solo para ABONO
+        porcentaje_recompensa = null // Solo para ABONO
     }) {
         const query = `
             INSERT INTO "Transacciones" (
-                cliente_id, 
-                cajero_id, 
-                monto_venta, 
-                porcentaje_recompensa, 
-                puntos_abonados
+                cliente_id, cajero_id, monto_efectivo, tipo_movimiento,
+                monto_venta_original, porcentaje_recompensa
             )
-            VALUES ($1, $2, $3, $4, $5) 
-            RETURNING id, fecha_transaccion, puntos_abonados
+            VALUES ($1, $2, $3, $4, $5, $6) 
+            RETURNING id, fecha_transaccion, monto_efectivo, tipo_movimiento
         `;
         const values = [
-            cliente_id, 
-            cajero_id, 
-            monto_venta, 
-            porcentaje_recompensa, 
-            puntos_abonados
+            cliente_id, cajero_id, monto_efectivo, tipo_movimiento,
+            monto_venta_original, porcentaje_recompensa
         ];
         
         const result = await pool.query(query, values);
@@ -56,6 +51,17 @@ class Transaction {
         `;
         const result = await pool.query(query, [limit, offset]);
         return result.rows;
+    }
+    static async getSummaryMetrics() {
+        const query = `
+            SELECT 
+                COALESCE(SUM(monto_venta), 0)::numeric(10, 2) AS total_sales,
+                COALESCE(SUM(puntos_abonados), 0)::numeric(10, 2) AS total_points_credited
+            FROM "Transacciones"
+        `;
+        const result = await pool.query(query);
+        // COALESCE asegura que si no hay transacciones, devuelve 0 en lugar de null
+        return result.rows[0];
     }
 }
 

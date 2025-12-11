@@ -34,6 +34,13 @@ class Client {
         const result = await pool.query(query, [id, points_to_add]);
         return result.rows[0];
     }
+
+    static async countTotalClients() {
+        const query = 'SELECT COUNT(id) FROM "Clientes"';
+        const result = await pool.query(query);
+        // La columna COUNT(id) se devuelve como "count"
+        return parseInt(result.rows[0].count) || 0;
+    }
 }
 
 module.exports = Client;

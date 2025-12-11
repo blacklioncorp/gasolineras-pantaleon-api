@@ -3,12 +3,14 @@ echo "
 # Dependencias
 /node_modules
 
-# Variables de entorno y credenciales
-.env
-.env.*
-*.log
-
-# Archivos de depuración y temporales
+# Archivos de build de Vite
 /dist
+
+# Variables de entorno locales
+.env
+.env.local
+.env.*.local
+
+# Logs
 npm-debug.log
 " > .gitignore

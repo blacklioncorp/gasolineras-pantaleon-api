@@ -16,7 +16,12 @@ router.post('/verificar-otp', clientController.verificarOTP);
 // B.3 Nuevo Cliente: Registro Final
 router.post('/', clientController.createClient);
 
-// B.4 Consultar Saldo
-router.get('/:celular', clientController.getClientBalance);
+// B.4 Consultar Saldo: REQUIERE TOKEN y debe ser solo para Cajeros o Administradores
+router.get(
+    '/:celular', 
+    verifyToken, // <--- AÑADIR: Verifica que haya un token válido
+    restrictTo(['ADMINISTRADOR', 'CAJERO']), // <--- AÑADIR: Restringe por rol
+    clientController.getClientBalance
+);
 
 module.exports = router;

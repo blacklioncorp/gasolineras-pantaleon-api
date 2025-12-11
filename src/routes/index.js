@@ -3,14 +3,15 @@
 const express = require('express');
 const router = express.Router();
 
-// Importa las rutas de autenticación
 const authRoutes = require('./v1/auth.routes'); 
-const clientRoutes = require('./v1/client.routes'); // <-- AÑADIR esta línea
-// const adminRoutes = require('./v1/admin.routes'); // Se añadirán más tarde
+const clientRoutes = require('./v1/client.routes'); 
+const transactionRoutes = require('./v1/transaction.routes'); // <-- AÑADIR esta línea
+const adminRoutes = require('./v1/admin.routes');
 
-// Define el prefijo para las rutas
 router.use('/auth', authRoutes);
-router.use('/clientes', clientRoutes); // <-- AÑADIR esta línea
+router.use('/clientes', clientRoutes); 
+router.use('/transacciones', transactionRoutes); // <-- AÑADIR esta línea
+router.use('/admin', adminRoutes);
 // router.use('/admin', adminRoutes);
 
 module.exports = router;
