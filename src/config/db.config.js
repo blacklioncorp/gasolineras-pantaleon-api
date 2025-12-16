@@ -1,18 +1,36 @@
-// src/config/db.config.js
+// src/config/db.config.js (CÓDIGO CORREGIDO Y COMPLETO)
 
 const { Pool } = require('pg');
-const fs = require('fs').promises; // Usamos la versión de Promesas
+const fs = require('fs').promises; 
 const path = require('path');
 
-// Crea el pool usando las variables de entorno de Render
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false 
-});
+let pool;
+
+if (process.env.DATABASE_URL) {
+    // 1. CONEXIÓN EN RENDER (usando la Internal Database URL robusta)
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        // Render requiere esta configuración SSL para la conexión interna
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
+    console.log('🔗 Usando DATABASE_URL para conexión en producción.');
+
+} else {
+    // 2. CONEXIÓN LOCAL (usando las variables separadas del .env)
+    pool = new Pool({
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_NAME,
+        password: process.env.DB_PASSWORD,
+        port: process.env.DB_PORT,
+        // En local, no se usa SSL (solo si se configura NODE_ENV=development)
+        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false 
+    });
+    console.log('🔗 Usando variables separadas para conexión local.');
+}
+
 
 /**
  * Función que intenta conectar la base de datos y ejecuta la migración inicial.

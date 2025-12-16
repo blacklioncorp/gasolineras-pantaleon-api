@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const clientController = require('../../controllers/client.controller');
+const { verifyToken, restrictTo } = require('../../middlewares/auth.middleware');
 
 // MIDDLEWARE: Se usaría aquí un middleware para verificar que el usuario logueado 
 // (Cajero) tenga el rol CAJERO, pero lo implementaremos más tarde.

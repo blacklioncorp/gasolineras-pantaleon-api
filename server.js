@@ -6,7 +6,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // Importa las rutas
-const apiRoutes = require('./src/routes'); 
+const apiRoutes = require('./src/routes/Index'); 
 // Importa la función de conexión a la DB
 const { connectDB } = require('./src/config/db.config');
 
@@ -44,17 +44,21 @@ app.use('/api/v1', apiRoutes);
 
 // --- Inicialización del Servidor ---
 
+// --- Inicialización del Servidor ---
+
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // Esto permite conexiones desde fuera del proceso
 
 // Primero intenta conectar la DB y luego inicia el servidor
 connectDB()
     .then(() => {
-        app.listen(PORT, () => {
+        // CORRECCIÓN: ¡Asegúrate de que HOST esté escrito aquí! 👇
+        app.listen(PORT, HOST, () => {
             console.log(`✅ Base de datos conectada.`);
             console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
         });
     })
     .catch(error => {
         console.error('❌ Error al iniciar la aplicación:', error.message);
-        process.exit(1); // Sale de la aplicación si no se puede conectar la DB
+        process.exit(1); 
     });
