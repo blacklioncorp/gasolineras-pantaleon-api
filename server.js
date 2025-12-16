@@ -6,7 +6,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // Importa las rutas
-const apiRoutes = require('./src/routes/Index'); 
+const apiRoutes = require('./src/routes'); 
 // Importa la función de conexión a la DB
 const { connectDB } = require('./src/config/db.config');
 
